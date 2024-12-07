@@ -1,0 +1,22 @@
+{
+  "name": "voosh-api",
+  "version": "1.0.0",
+  "description": "Music Library Management API that allows users within anorganization to manage their collection of Artists, Tracks, and Albums. Each organization has a singleAdmin who oversees the system and its users. The API also provides functionality for users to mark theirfavorite Artists, Albums, and Tracks for quick access and personalization.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muhammedjavadksd/voosh-api.git"
+  },
+  "author": "Muhammed Javad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muhammedjavadksd/voosh-api/issues"
+  },
+  "homepage": "https://github.com/muhammedjavadksd/voosh-api#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
