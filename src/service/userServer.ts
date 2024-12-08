@@ -1,4 +1,4 @@
-import { HttpStatus, JwtExpiration } from "../data/enum/utilEnum";
+import { HttpStatus, JwtExpiration, UserRole } from "../data/enum/utilEnum";
 import { IBcryptModule, ITokenModule, ITokenRepo, IUserRepo, IUserService } from "../data/interface/abstractInterface";
 import { IUserJwtPayload, ServiceResponse } from "../data/interface/typeInterface";
 
@@ -17,6 +17,33 @@ export class UserService implements IUserService {
         this.userRepo = userRepo;
         this.bcryptModule = bcryptModule;
         this.tokenModule = tokenModule
+    }
+
+
+    async signUp(emailAddress: string, password: string): Promise<ServiceResponse> {
+        const findByEmailId = await this.userRepo.findUserByEmail(emailAddress);
+        if (!findByEmailId) {
+            const bcryptPassword = await this.bcryptModule.bcrypt(password);
+            if (bcryptPassword) {
+                const insert = await this.userRepo.insertUser({ email_id: emailAddress, password: bcryptPassword, role: UserRole.Viewer })
+                return {
+                    msg: insert ? "Sign up success" : "Internal server error",
+                    status: !!insert,
+                    statusCode: insert ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR
+                }
+            }
+            return {
+                msg: "Internal server error",
+                status: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR
+            }
+        } else {
+            return {
+                msg: "Email id already exist",
+                status: false,
+                statusCode: HttpStatus.CONFLICT
+            }
+        }
     }
 
 

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ServiceResponse } from "./typeInterface";
-import { IUserCollection } from "./databaseModel";
+import { IUserCollection, IUserSchema } from "./databaseModel";
+import { ObjectId } from "mongoose";
 
 
 export interface ITokenRepo {
@@ -10,6 +11,7 @@ export interface ITokenRepo {
 export interface IUserService {
     logout(token: string): Promise<ServiceResponse>
     signIn(emailAddress: string, password: string): Promise<ServiceResponse>
+    signUp(emailAddress: string, password: string): Promise<ServiceResponse>
 }
 
 export interface IBcryptModule {
@@ -20,6 +22,7 @@ export interface IBcryptModule {
 
 export interface IUserRepo {
     findUserByEmail(emailAddress: string): Promise<IUserCollection | null>
+    insertUser(instance: Partial<IUserSchema>): Promise<ObjectId | null>
 }
 
 export interface ITokenModule {

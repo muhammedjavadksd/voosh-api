@@ -14,13 +14,30 @@ export class UserController {
         this.userService = userService;
     }
 
+
+    async signUp(req: Request, res: Response): Promise<void> {
+        const password: string = req.body.password
+        const email: string = req.body.email
+
+        try {
+            const signUp = await this.userService.signUp(email, password);
+            res.status(signUp.statusCode).json({ status: signUp.status, msg: signUp.msg, data: signUp.data })
+        } catch (e) {
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: false, msg: "Internal server error" })
+        }
+    }
+
     async signIn(req: Request, res: Response): Promise<void> {
 
         const password: string = req.body.password
         const email: string = req.body.email
 
-
-
+        try {
+            const signIn = await this.userService.signIn(email, password);
+            res.status(signIn.statusCode).json({ status: signIn.status, msg: signIn.msg, data: signIn.data })
+        } catch (e) {
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: false, msg: "Internal server error" })
+        }
     }
 
     async logout(req: CustomeHeader, res: Response): Promise<void> {
