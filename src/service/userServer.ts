@@ -1,8 +1,8 @@
-import { ITokenRepo } from "../data/interface/abstractInterface";
+import { ITokenRepo, IUserService } from "../data/interface/abstractInterface";
 import { HttpStatus, ServiceResponse } from "../data/interface/typeInterface";
 
 
-export class UserService {
+export class UserService implements IUserService {
 
 
     private readonly tokenRepo: ITokenRepo;
@@ -13,7 +13,7 @@ export class UserService {
     }
 
 
-    async logout(token): Promise<ServiceResponse> {
+    async logout(token: string): Promise<ServiceResponse> {
         try {
             const block = await this.tokenRepo.addToBlackList(token);
             return {

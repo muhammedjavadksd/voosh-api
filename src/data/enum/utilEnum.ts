@@ -5,3 +5,8 @@ export enum UserRole {
     Editor = "editor",
     Viewer = "viewer"
 }
+
+export enum CookiePair {
+    accessToken = "access-token",
+    refreshToken = "refresh-token"
+}

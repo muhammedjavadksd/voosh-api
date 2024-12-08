@@ -1,24 +1,27 @@
-import express from 'express';
 import userRouter from './router/userRouter';
 import { errorHandle, notFound } from './middleware/utilMiddleware';
-
-const app = express();
-
-export function startServer() {
-
-    const PORT = process.env.PORT || 8000
-
-    app.use(express.json({}))
-    app.use(express.urlencoded({ extended: true }))
+import { Express } from 'express';
+import express from 'express';
 
 
-    app.use("/user", userRouter)
 
-    app.use(notFound)
-    app.use(errorHandle)
+export function startServer(app: Express, port: number) {
+
+    return function () {
 
 
-    app.listen(PORT, () => {
-        console.log(`Server started at port ${PORT}`);
-    })
+        app.use(express.json({}))
+        app.use(express.urlencoded({ extended: true }))
+
+
+        app.use("/user", userRouter)
+
+        app.use(notFound)
+        app.use(errorHandle)
+
+
+        app.listen(port, () => {
+            console.log(`Server started at port ${port}`);
+        })
+    }
 }
