@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { HttpStatus } from "../../../data/interface/typeInterface";
+import { HttpStatus } from "../../../data/enum/utilEnum";
 
 
 export function errorHandle(error: Error, req: Request, res: Response, next: NextFunction) {

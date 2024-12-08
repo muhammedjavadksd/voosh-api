@@ -12,6 +12,11 @@ export interface IUserService {
     signIn(emailAddress: string, password: string): Promise<ServiceResponse>
 }
 
+export interface IBcryptModule {
+    bcrypt(data: string): Promise<string | null>
+    compare(data: string, compareWith: string): Promise<boolean>
+}
+
 
 export interface IUserRepo {
     findUserByEmail(emailAddress: string): Promise<IUserCollection | null>

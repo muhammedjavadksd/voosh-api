@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { IUserService } from "../../../data/interface/abstractInterface";
-import { CustomeHeader, HttpStatus } from "../../../data/interface/typeInterface";
-import { CookiePair } from "../../../data/enum/utilEnum";
+import { CustomeHeader } from "../../../data/interface/typeInterface";
+import { CookiePair, HttpStatus } from "../../../data/enum/utilEnum";
 
 
 export class UserController {

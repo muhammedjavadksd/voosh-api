@@ -4,14 +4,16 @@ import { UserService } from '../../../service/userServer';
 import TokenRepo from '../../mongodb/repo/tokenRepo';
 import AuthMiddleware from '../middleware/authMiddleware';
 import JsonWebTokenModule from '../../../module/jsonwebtoken';
+import BcryptModule from '../../../module/bcrypt';
+import UserRepo from '../../mongodb/repo/userRepo';
 const userRouter = express.Router();
 
-
-const tokenRepo = new TokenRepo()
-const service = new UserService(tokenRepo);
-const router = new UserController(service)
-
 const tokenModule = new JsonWebTokenModule();
+const tokenRepo = new TokenRepo()
+const bcryptModule = new BcryptModule()
+const userRepo = new UserRepo();
+const service = new UserService(tokenRepo, userRepo, bcryptModule, tokenModule);
+const router = new UserController(service)
 const authMiddleware = new AuthMiddleware(tokenModule)
 
 userRouter.get("/logout", authMiddleware.isLogged.bind(authMiddleware), router.logout);

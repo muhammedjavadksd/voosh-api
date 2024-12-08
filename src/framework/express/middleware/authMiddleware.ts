@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { IAuthMiddleware, ITokenModule } from "../../../data/interface/abstractInterface";
-import { HttpStatus } from "../../../data/interface/typeInterface";
+import { HttpStatus } from "../../../data/enum/utilEnum";
 
 
 
