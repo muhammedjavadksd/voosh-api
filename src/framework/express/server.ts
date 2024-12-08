@@ -1,5 +1,6 @@
 import express from 'express';
 import userRouter from './router/userRouter';
+import { errorHandle, notFound } from './middleware/utilMiddleware';
 
 const app = express();
 
@@ -12,6 +13,9 @@ export function startServer() {
 
 
     app.use("/user", userRouter)
+
+    app.use(notFound)
+    app.use(errorHandle)
 
 
     app.listen(PORT, () => {
