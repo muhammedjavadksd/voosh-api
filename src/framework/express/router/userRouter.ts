@@ -19,6 +19,8 @@ const router = new UserController(service)
 const authMiddleware = new AuthMiddleware(tokenModule)
 
 userRouter.get("/logout", authMiddleware.isLogged.bind(authMiddleware), router.logout);
+userRouter.get("/users", authMiddleware.isLogged.bind(authMiddleware), router.logout);
+
 userRouter.post("/login", signInValidator, validateRequest, router.signIn);
 userRouter.post("/signup", signUpValidator, validateRequest, router.signUp);
 

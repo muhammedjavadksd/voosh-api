@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { ServiceResponse } from "./typeInterface";
+import { IPaginationResponse, ServiceResponse } from "./typeInterface";
 import { IUserCollection, IUserSchema } from "./databaseModel";
 import { ObjectId } from "mongoose";
+import { UserRole } from "../enum/utilEnum";
 
 
 export interface ITokenRepo {
@@ -9,9 +10,10 @@ export interface ITokenRepo {
 }
 
 export interface IUserService {
-    logout(token: string): Promise<ServiceResponse>
-    signIn(emailAddress: string, password: string): Promise<ServiceResponse>
-    signUp(emailAddress: string, password: string): Promise<ServiceResponse>
+    logout(token: string): Promise<ServiceResponse<null>>
+    signIn(emailAddress: string, password: string): Promise<ServiceResponse<Record<string, any>>>
+    signUp(emailAddress: string, password: string): Promise<ServiceResponse<null>>
+    getUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<ServiceResponse<IPaginationResponse<IUserCollection>>>
 }
 
 export interface IBcryptModule {
@@ -19,10 +21,10 @@ export interface IBcryptModule {
     compare(data: string, compareWith: string): Promise<boolean>
 }
 
-
 export interface IUserRepo {
     findUserByEmail(emailAddress: string): Promise<IUserCollection | null>
     insertUser(instance: Partial<IUserSchema>): Promise<ObjectId | null>
+    findUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<IPaginationResponse<IUserCollection>>
 }
 
 export interface ITokenModule {

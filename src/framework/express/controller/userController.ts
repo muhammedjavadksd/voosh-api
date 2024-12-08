@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { IUserService } from "../../../data/interface/abstractInterface";
 import { CustomeHeader } from "../../../data/interface/typeInterface";
-import { CookiePair, HttpStatus } from "../../../data/enum/utilEnum";
+import { CookiePair, HttpStatus, UserRole } from "../../../data/enum/utilEnum";
 
 
 export class UserController {
@@ -12,6 +12,21 @@ export class UserController {
 
     constructor(userService: IUserService) {
         this.userService = userService;
+    }
+
+
+    async getUsers(req: Request, res: Response): Promise<void> {
+
+        const limit: number | null = req.query.limit as unknown as number
+        const offset: number | null = req.query.offset as unknown as number
+        const role: UserRole | null = req.query.role as UserRole;
+
+        const findUsers = await this.userService.getUsers(offset, limit, role)
+        if (findUsers.data?.size) {
+            res.status(HttpStatus.OK).json({ status: true, msg: "User found", data: findUsers.data });
+        } else {
+            res.status(HttpStatus.NOT_FOUND).json({ status: false, msg: "No data found" });
+        }
     }
 
 

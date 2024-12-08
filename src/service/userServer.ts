@@ -1,6 +1,7 @@
 import { HttpStatus, JwtExpiration, UserRole } from "../data/enum/utilEnum";
 import { IBcryptModule, ITokenModule, ITokenRepo, IUserRepo, IUserService } from "../data/interface/abstractInterface";
-import { IUserJwtPayload, ServiceResponse } from "../data/interface/typeInterface";
+import { IUserCollection } from "../data/interface/databaseModel";
+import { IPaginationResponse, IUserJwtPayload, ServiceResponse } from "../data/interface/typeInterface";
 
 
 export class UserService implements IUserService {
@@ -17,6 +18,11 @@ export class UserService implements IUserService {
         this.userRepo = userRepo;
         this.bcryptModule = bcryptModule;
         this.tokenModule = tokenModule
+    }
+
+
+    getUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<ServiceResponse<IPaginationResponse<IUserCollection>>> {
+        throw new Error("Method not implemented.");
     }
 
 
