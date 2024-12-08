@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/muhammedjavadksd/voosh-api#readme",
   "dependencies": {
-    "express": "^4.21.2"
+    "@mongosh/types": "^2.3.4",
+    "express": "^4.21.2",
+    "mongoose": "^8.8.4",
+    "mongosh": "^2.3.4"
   }
 }
