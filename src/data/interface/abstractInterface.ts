@@ -15,6 +15,7 @@ export interface IUserService {
     signUp(emailAddress: string, password: string): Promise<ServiceResponse<null>>
     getUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<ServiceResponse<IPaginationResponse<IUserCollection>>>
     addUser(emailAddress: string, password: string, role: UserRole): Promise<ServiceResponse<null>>
+    findSingleUser(profileId: string): Promise<ServiceResponse<IUserCollection>>
 }
 
 export interface IBcryptModule {
@@ -24,6 +25,7 @@ export interface IBcryptModule {
 
 export interface IUserRepo {
     findUserByEmail(emailAddress: string): Promise<IUserCollection | null>
+    findUserById(userId: string): Promise<IUserCollection | null>
     insertUser(instance: Partial<IUserSchema>): Promise<ObjectId | null>
     findUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<IPaginationResponse<IUserCollection>>
 }

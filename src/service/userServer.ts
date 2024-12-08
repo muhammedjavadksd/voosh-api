@@ -20,6 +20,25 @@ export class UserService implements IUserService {
         this.tokenModule = tokenModule
     }
 
+
+    async findSingleUser(profileId: string): Promise<ServiceResponse<IUserCollection>> {
+        const profile: IUserCollection | null = await this.userRepo.findUserById(profileId);
+        if (profile) {
+            return {
+                msg: "User found success",
+                status: true,
+                statusCode: HttpStatus.OK,
+                data: profile
+            }
+        } else {
+            return {
+                msg: "Not found",
+                status: false,
+                statusCode: HttpStatus.NOT_FOUND,
+            }
+        }
+    }
+
     async addUser(emailAddress: string, password: string, role: UserRole): Promise<ServiceResponse<null>> {
 
         const findByEmailId = await this.userRepo.findUserByEmail(emailAddress);

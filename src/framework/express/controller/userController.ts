@@ -14,6 +14,12 @@ export class UserController {
         this.userService = userService;
     }
 
+
+    async findSingleUser(req: Request, res: Response): Promise<void> {
+        const userId: string = req.query.id as string;
+
+    }
+
     async addUser(req: Request, res: Response): Promise<void> {
 
         const emailAddress: string = req.body.email_address;

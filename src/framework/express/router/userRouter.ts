@@ -20,10 +20,11 @@ const authMiddleware = new AuthMiddleware(tokenModule)
 
 userRouter.get("/logout", authMiddleware.isLogged.bind(authMiddleware), router.logout);
 userRouter.get("/users", authMiddleware.isLogged.bind(authMiddleware), router.logout);
+userRouter.get("/:id", authMiddleware.isLogged.bind(authMiddleware), router.logout);
 
 userRouter.post("/login", signInValidator, validateRequest, router.signIn);
 userRouter.post("/signup", signUpValidator, validateRequest, router.signUp);
-userRouter.post("/add-user", authMiddleware.isLogged, addUserValidator, validateRequest, router.signUp);
+userRouter.post("/add-user", authMiddleware.isAdmin, addUserValidator, validateRequest, router.signUp);
 
 export default userRouter
 
