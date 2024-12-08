@@ -8,7 +8,14 @@ import { ObjectId } from "mongoose";
 
 class UserRepo implements IUserRepo {
 
+
     private readonly instance = userModel;
+
+    async deleteProfile(userId: string): Promise<boolean> {
+        const deleteProfile = await this.instance.deleteOne({ _id: userId });
+        return deleteProfile.deletedCount > 0
+    }
+
 
     async findUserById(userId: string): Promise<IUserCollection | null> {
         const find = await this.instance.findById(userId);

@@ -26,6 +26,8 @@ userRouter.post("/login", signInValidator, validateRequest, router.signIn);
 userRouter.post("/signup", signUpValidator, validateRequest, router.signUp);
 userRouter.post("/add-user", authMiddleware.isAdmin, addUserValidator, validateRequest, router.signUp);
 
+userRouter.delete("/:id", authMiddleware.isAdmin, router.signUp);
+
 export default userRouter
 
 

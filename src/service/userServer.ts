@@ -21,6 +21,24 @@ export class UserService implements IUserService {
     }
 
 
+    async deleteProfile(userId: string): Promise<ServiceResponse<null>> {
+        const deleteProfile = await this.userRepo.deleteProfile(userId);
+        if (deleteProfile) {
+            return {
+                msg: "Profile delete success",
+                status: true,
+                statusCode: HttpStatus.OK
+            }
+        } else {
+            return {
+                msg: "Data not found",
+                status: false,
+                statusCode: HttpStatus.NOT_FOUND
+            }
+        }
+    }
+
+
     async findSingleUser(profileId: string): Promise<ServiceResponse<IUserCollection>> {
         const profile: IUserCollection | null = await this.userRepo.findUserById(profileId);
         if (profile) {

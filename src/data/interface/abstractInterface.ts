@@ -10,6 +10,7 @@ export interface ITokenRepo {
 }
 
 export interface IUserService {
+    deleteProfile(userId: string): Promise<ServiceResponse<null>>
     logout(token: string): Promise<ServiceResponse<null>>
     signIn(emailAddress: string, password: string): Promise<ServiceResponse<Record<string, any>>>
     signUp(emailAddress: string, password: string): Promise<ServiceResponse<null>>
@@ -24,6 +25,7 @@ export interface IBcryptModule {
 }
 
 export interface IUserRepo {
+    deleteProfile(userId: string): Promise<boolean>
     findUserByEmail(emailAddress: string): Promise<IUserCollection | null>
     findUserById(userId: string): Promise<IUserCollection | null>
     insertUser(instance: Partial<IUserSchema>): Promise<ObjectId | null>
