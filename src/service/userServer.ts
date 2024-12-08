@@ -21,12 +21,27 @@ export class UserService implements IUserService {
     }
 
 
-    getUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<ServiceResponse<IPaginationResponse<IUserCollection>>> {
-        throw new Error("Method not implemented.");
+    async getUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<ServiceResponse<IPaginationResponse<IUserCollection>>> {
+
+        const findUsers = await this.userRepo.findUsers(offset, limit, role);
+        if (findUsers.size) {
+            return {
+                msg: "User fetch success",
+                status: true,
+                statusCode: HttpStatus.OK,
+                data: findUsers
+            }
+        } else {
+            return {
+                msg: "No data found",
+                status: false,
+                statusCode: HttpStatus.NOT_FOUND,
+            }
+        }
     }
 
 
-    async signUp(emailAddress: string, password: string): Promise<ServiceResponse> {
+    async signUp(emailAddress: string, password: string): Promise<ServiceResponse<null>> {
         const findByEmailId = await this.userRepo.findUserByEmail(emailAddress);
         if (!findByEmailId) {
             const bcryptPassword = await this.bcryptModule.bcrypt(password);
@@ -53,7 +68,7 @@ export class UserService implements IUserService {
     }
 
 
-    async signIn(emailAddress: string, password: string): Promise<ServiceResponse> {
+    async signIn(emailAddress: string, password: string): Promise<ServiceResponse<Record<string, any>>> {
         const findByEmail = await this.userRepo.findUserByEmail(emailAddress);
         if (findByEmail) {
             const comparePassword = await this.bcryptModule.compare(password, findByEmail.password);
@@ -100,7 +115,7 @@ export class UserService implements IUserService {
     }
 
 
-    async logout(token: string): Promise<ServiceResponse> {
+    async logout(token: string): Promise<ServiceResponse<null>> {
         try {
             const block = await this.tokenRepo.addToBlackList(token);
             return {

@@ -6,7 +6,7 @@ import AuthMiddleware from '../middleware/authMiddleware';
 import JsonWebTokenModule from '../../../module/jsonwebtoken';
 import BcryptModule from '../../../module/bcrypt';
 import UserRepo from '../../mongodb/repo/userRepo';
-import { signInValidator, signUpValidator } from '../../../data/validator/express-validator';
+import { addUserValidator, signInValidator, signUpValidator } from '../../../data/validator/express-validator';
 import { validateRequest } from '../middleware/utilMiddleware';
 const userRouter = express.Router();
 
@@ -23,6 +23,7 @@ userRouter.get("/users", authMiddleware.isLogged.bind(authMiddleware), router.lo
 
 userRouter.post("/login", signInValidator, validateRequest, router.signIn);
 userRouter.post("/signup", signUpValidator, validateRequest, router.signUp);
+userRouter.post("/add-user", authMiddleware.isLogged, addUserValidator, validateRequest, router.signUp);
 
 export default userRouter
 

@@ -14,6 +14,16 @@ export class UserController {
         this.userService = userService;
     }
 
+    async addUser(req: Request, res: Response): Promise<void> {
+
+        const emailAddress: string = req.body.email_address;
+        const password: string = req.body.password;
+        const role: UserRole = req.body.role;
+
+        const add = await this.userService.addUser(emailAddress, password, role);
+        res.status(add.statusCode).json({ status: add.status, msg: add.msg })
+    }
+
 
     async getUsers(req: Request, res: Response): Promise<void> {
 
@@ -22,11 +32,7 @@ export class UserController {
         const role: UserRole | null = req.query.role as UserRole;
 
         const findUsers = await this.userService.getUsers(offset, limit, role)
-        if (findUsers.data?.size) {
-            res.status(HttpStatus.OK).json({ status: true, msg: "User found", data: findUsers.data });
-        } else {
-            res.status(HttpStatus.NOT_FOUND).json({ status: false, msg: "No data found" });
-        }
+        res.status(findUsers.statusCode).json({ status: findUsers.status, msg: findUsers.msg, data: findUsers.data });
     }
 
 

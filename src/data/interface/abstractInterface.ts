@@ -14,6 +14,7 @@ export interface IUserService {
     signIn(emailAddress: string, password: string): Promise<ServiceResponse<Record<string, any>>>
     signUp(emailAddress: string, password: string): Promise<ServiceResponse<null>>
     getUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<ServiceResponse<IPaginationResponse<IUserCollection>>>
+    addUser(emailAddress: string, password: string, role: UserRole): Promise<ServiceResponse<IPaginationResponse<IUserCollection>>>
 }
 
 export interface IBcryptModule {
