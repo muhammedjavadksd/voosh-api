@@ -8,8 +8,12 @@ import { ObjectId } from "mongoose";
 
 class UserRepo implements IUserRepo {
 
-
     private readonly instance = userModel;
+
+    async findUserById(userId: string): Promise<IUserCollection | null> {
+        const find = await this.instance.findById(userId);
+        return find
+    }
 
     async findUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<IPaginationResponse<IUserCollection>> {
 
