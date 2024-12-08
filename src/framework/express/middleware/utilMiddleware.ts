@@ -3,6 +3,7 @@ import { HttpStatus } from "../../../data/interface/typeInterface";
 
 
 export function errorHandle(error: Error, req: Request, res: Response, next: NextFunction) {
+    console.log("Global error");
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: false, msg: "Something went wrong" })
 }
 

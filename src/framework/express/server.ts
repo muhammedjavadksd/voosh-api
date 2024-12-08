@@ -2,6 +2,7 @@ import userRouter from './router/userRouter';
 import { errorHandle, notFound } from './middleware/utilMiddleware';
 import { Express } from 'express';
 import express from 'express';
+import logger from 'morgan'
 
 
 
@@ -13,8 +14,10 @@ export function startServer(app: Express, port: number) {
         app.use(express.json({}))
         app.use(express.urlencoded({ extended: true }))
 
+        app.use(logger("combined"))
 
-        app.use("/user", userRouter)
+
+        app.use("/", userRouter)
 
         app.use(notFound)
         app.use(errorHandle)

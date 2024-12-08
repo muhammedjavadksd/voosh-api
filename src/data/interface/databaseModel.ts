@@ -1,4 +1,7 @@
+import { Document } from "mongoose"
 import { UserRole } from "../enum/utilEnum"
+
+
 
 
 
@@ -13,3 +16,6 @@ export interface ITokenBlackList {
     token: string
     timestamp: string
 }
+
+
+export interface IUserCollection extends IUserSchema, Document { }

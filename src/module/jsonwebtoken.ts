@@ -11,7 +11,7 @@ class JsonWebTokenModule implements ITokenModule {
             const token = jwt.sign(payload, secrets, { expiresIn: expire });
             return token
         } else {
-            throw new Error("Internals erver error")
+            throw new Error("Token generation error")
         }
     }
 

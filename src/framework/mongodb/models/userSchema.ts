@@ -1,4 +1,4 @@
-import { IUserSchema } from '../../../data/interface/databaseModel'
+import { IUserCollection, IUserSchema } from '../../../data/interface/databaseModel'
 import { UserRole } from '../../../data/enum/utilEnum'
 import { model, Schema } from 'mongoose';
 

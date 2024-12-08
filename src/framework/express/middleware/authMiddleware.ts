@@ -29,6 +29,7 @@ class AuthMiddleware implements IAuthMiddleware {
             }
             res.status(HttpStatus.UNAUTHORIZED).json({ status: false, msg: "Un authrazied access" })
         } catch (e) {
+            console.log(e);
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: false, msg: "Internal server error" });
         }
     }

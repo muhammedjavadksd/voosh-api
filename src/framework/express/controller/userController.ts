@@ -14,6 +14,14 @@ export class UserController {
         this.userService = userService;
     }
 
+    async signIn(req: Request, res: Response): Promise<void> {
+
+        const password: string = req.body.password
+        const email: string = req.body.email
+
+
+
+    }
 
     async logout(req: CustomeHeader, res: Response): Promise<void> {
         const token: string | null = req.context?.token;
