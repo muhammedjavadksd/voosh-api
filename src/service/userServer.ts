@@ -20,6 +20,33 @@ export class UserService implements IUserService {
         this.tokenModule = tokenModule
     }
 
+    async addUser(emailAddress: string, password: string, role: UserRole): Promise<ServiceResponse<null>> {
+
+        const findByEmailId = await this.userRepo.findUserByEmail(emailAddress);
+        if (findByEmailId) {
+            return {
+                msg: "Email id already exist",
+                status: false,
+                statusCode: HttpStatus.CONFLICT
+            }
+        }
+        const bcrypt = await this.bcryptModule.bcrypt(password);
+        if (bcrypt) {
+            await this.userRepo.insertUser({ email_id: emailAddress, password: bcrypt, role: role });
+            return {
+                msg: "User created success",
+                status: true,
+                statusCode: HttpStatus.CREATED
+            }
+        } else {
+            return {
+                msg: "Internal server error",
+                status: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR
+            }
+        }
+    }
+
 
     async getUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<ServiceResponse<IPaginationResponse<IUserCollection>>> {
 
