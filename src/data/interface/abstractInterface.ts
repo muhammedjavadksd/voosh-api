@@ -17,6 +17,7 @@ export interface IUserService {
     getUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<ServiceResponse<IPaginationResponse<IUserCollection>>>
     addUser(emailAddress: string, password: string, role: UserRole): Promise<ServiceResponse<null>>
     findSingleUser(profileId: string): Promise<ServiceResponse<IUserCollection>>
+    updatePassword(password: string, profileId: string): Promise<ServiceResponse<null>>
 }
 
 export interface IBcryptModule {
@@ -30,6 +31,7 @@ export interface IUserRepo {
     findUserById(userId: string): Promise<IUserCollection | null>
     insertUser(instance: Partial<IUserSchema>): Promise<ObjectId | null>
     findUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<IPaginationResponse<IUserCollection>>
+    updateProfile(profile: Partial<IUserCollection>, profileId: string): Promise<boolean>
 }
 
 export interface ITokenModule {

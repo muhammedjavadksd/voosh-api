@@ -28,6 +28,8 @@ userRouter.post("/add-user", authMiddleware.isAdmin, addUserValidator, validateR
 
 userRouter.delete("/:id", authMiddleware.isAdmin, router.signUp);
 
+userRouter.put("/update-password", authMiddleware.isLogged, router.signUp);
+
 export default userRouter
 
 

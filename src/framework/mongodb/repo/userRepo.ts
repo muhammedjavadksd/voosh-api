@@ -11,11 +11,15 @@ class UserRepo implements IUserRepo {
 
     private readonly instance = userModel;
 
+    async updateProfile(profile: Partial<IUserCollection>, profileId: string): Promise<boolean> {
+        const update = await this.instance.updateOne({ _id: profileId }, { $set: { ...profile } });
+        return update.modifiedCount > 0
+    }
+
     async deleteProfile(userId: string): Promise<boolean> {
         const deleteProfile = await this.instance.deleteOne({ _id: userId });
         return deleteProfile.deletedCount > 0
     }
-
 
     async findUserById(userId: string): Promise<IUserCollection | null> {
         const find = await this.instance.findById(userId);
@@ -23,8 +27,6 @@ class UserRepo implements IUserRepo {
     }
 
     async findUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<IPaginationResponse<IUserCollection>> {
-
-
 
         const matchStage = role ? { $match: { role } } : { $match: {} };
 

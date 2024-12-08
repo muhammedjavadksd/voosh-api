@@ -21,6 +21,34 @@ export class UserService implements IUserService {
     }
 
 
+    async updatePassword(password: string, profileId: string): Promise<ServiceResponse<null>> {
+
+        const bcrypt = await this.bcryptModule.bcrypt(password);
+        if (bcrypt) {
+            const updatePassword = await this.userRepo.updateProfile({ password: bcrypt }, profileId);
+            if (updatePassword) {
+                return {
+                    msg: "Profile updated success",
+                    status: true,
+                    statusCode: HttpStatus.OK
+                }
+            } else {
+                return {
+                    msg: "Profile updated failed",
+                    status: false,
+                    statusCode: HttpStatus.BAD_REQUEST
+                }
+            }
+        } else {
+            return {
+                msg: "Internal server error",
+                status: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR
+            }
+        }
+    }
+
+
     async deleteProfile(userId: string): Promise<ServiceResponse<null>> {
         const deleteProfile = await this.userRepo.deleteProfile(userId);
         if (deleteProfile) {

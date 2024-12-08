@@ -15,9 +15,19 @@ export class UserController {
     }
 
 
+    async updatePassword(req: CustomeHeader, res: Response): Promise<void> {
+        const password = req.body.password;
+        const profileId = req.context?.profileId;
+
+        const updatePassword = await this.userService.updatePassword(password, profileId);
+        res.status(updatePassword.statusCode).json({ status: updatePassword.status, msg: updatePassword.msg, data: updatePassword.data })
+    }
+
+
     async findSingleUser(req: Request, res: Response): Promise<void> {
         const userId: string = req.query.id as string;
-
+        const findProfile = await this.userService.findSingleUser(userId);
+        res.status(findProfile.statusCode).json({ status: findProfile.status, msg: findProfile.msg, data: findProfile.data })
     }
 
     async addUser(req: Request, res: Response): Promise<void> {
