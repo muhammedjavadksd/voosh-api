@@ -17,6 +17,7 @@ export class UserService implements IUserService {
     constructor(tokenRepo: ITokenRepo, userRepo: IUserRepo, bcryptModule: IBcryptModule, tokenModule: ITokenModule, helper: IProjectHelper) {
         this.signUp = this.signUp.bind(this);
         this.signIn = this.signIn.bind(this);
+        this.logout = this.logout.bind(this);
         this.tokenRepo = tokenRepo;
         this.userRepo = userRepo;
         this.bcryptModule = bcryptModule;
@@ -218,7 +219,10 @@ export class UserService implements IUserService {
 
 
     async logout(token: string): Promise<ServiceResponse<null>> {
+        console.log("Invoke");
+
         try {
+
             const block = await this.tokenRepo.addToBlackList(token);
             return {
                 msg: block ? "Logout success" : "Logout failed",

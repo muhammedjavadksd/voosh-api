@@ -7,6 +7,7 @@ import { UserRole } from "../enum/utilEnum";
 
 export interface ITokenRepo {
     addToBlackList(token: string): Promise<string | false>
+    isExist(token: string): Promise<boolean>
 }
 
 export interface IUserService {

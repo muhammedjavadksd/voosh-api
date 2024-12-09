@@ -13,6 +13,7 @@ export class UserController {
     constructor(userService: IUserService) {
         this.signUp = this.signUp.bind(this)
         this.signIn = this.signIn.bind(this)
+        this.logout = this.logout.bind(this)
         this.userService = userService;
     }
 
@@ -128,7 +129,7 @@ export class UserController {
             res.status(logout.statusCode).json({
                 status: logout.statusCode,
                 message: logout.msg,
-                data: logout.msg,
+                data: logout.data,
             })
         } else {
             res.status(HttpStatus.UNAUTHORIZED).json({
