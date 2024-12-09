@@ -21,14 +21,24 @@ export class UserController {
         const profileId = req.context?.profileId;
 
         const updatePassword = await this.userService.updatePassword(password, profileId);
-        res.status(updatePassword.statusCode).json({ status: updatePassword.status, msg: updatePassword.msg, data: updatePassword.data })
+        res.status(updatePassword.statusCode).json({
+            status: updatePassword.statusCode,
+            message: updatePassword.msg,
+            data: updatePassword.data,
+            error: !updatePassword.status ? updatePassword.msg : null
+        })
     }
 
 
     async findSingleUser(req: Request, res: Response): Promise<void> {
         const userId: string = req.query.id as string;
         const findProfile = await this.userService.findSingleUser(userId);
-        res.status(findProfile.statusCode).json({ status: findProfile.status, msg: findProfile.msg, data: findProfile.data })
+        res.status(findProfile.statusCode).json({
+            status: findProfile.statusCode,
+            message: findProfile.msg,
+            data: findProfile.data,
+            error: !findProfile.status ? findProfile.msg : null
+        })
     }
 
     async addUser(req: Request, res: Response): Promise<void> {
@@ -38,7 +48,12 @@ export class UserController {
         const role: UserRole = req.body.role;
 
         const add = await this.userService.addUser(emailAddress, password, role);
-        res.status(add.statusCode).json({ status: add.status, msg: add.msg })
+        res.status(add.statusCode).json({
+            status: add.statusCode,
+            message: add.msg,
+            error: !add.status ? add.msg : null,
+            data: null
+        })
     }
 
 
@@ -49,7 +64,12 @@ export class UserController {
         const role: UserRole | null = req.query.role as UserRole;
 
         const findUsers = await this.userService.getUsers(offset, limit, role)
-        res.status(findUsers.statusCode).json({ status: findUsers.status, msg: findUsers.msg, data: findUsers.data });
+        res.status(findUsers.statusCode).json({
+            status: findUsers.statusCode,
+            message: findUsers.msg,
+            data: findUsers.data,
+            error: !findUsers.status ? findUsers.msg : null
+        });
     }
 
 
@@ -64,11 +84,20 @@ export class UserController {
 
         try {
             const signUp = await this.userService.signUp(email, password);
-            res.status(signUp.statusCode).json({ status: signUp.status, msg: signUp.msg, data: signUp.data })
+            res.status(signUp.statusCode).json({
+                status: signUp.statusCode,
+                message: signUp.msg,
+                data: signUp.data,
+                error: !signUp.status ? signUp.msg : null
+            })
         } catch (e) {
             console.log(e);
-
-            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: false, msg: "Internal server error" })
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                status: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: "Internal server error",
+                error: "Internal server error",
+                data: null
+            })
         }
     }
 
@@ -79,9 +108,19 @@ export class UserController {
 
         try {
             const signIn = await this.userService.signIn(email, password);
-            res.status(signIn.statusCode).json({ status: signIn.status, msg: signIn.msg, data: signIn.data })
+            res.status(signIn.statusCode).json({
+                status: signIn.statusCode,
+                message: signIn.msg,
+                data: signIn.data,
+                error: !signIn.status ? signIn.msg : null
+            })
         } catch (e) {
-            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: false, msg: "Internal server error" })
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                status: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: "Internal server error",
+                data: null,
+                error: "Internal server error"
+            })
         }
     }
 
@@ -91,9 +130,19 @@ export class UserController {
             const logout = await this.userService.logout(token);
             res.clearCookie(CookiePair.accessToken, { httpOnly: true, secure: true })
             res.clearCookie(CookiePair.refreshToken, { httpOnly: true, secure: true })
-            res.status(logout.statusCode).json({ status: logout.statusCode, msg: logout.msg, data: logout.msg })
+            res.status(logout.statusCode).json({
+                status: logout.statusCode,
+                message: logout.msg,
+                data: logout.msg,
+                error: !logout.status ? logout.msg : null
+            })
         } else {
-            res.status(HttpStatus.UNAUTHORIZED).json({ status: false, msg: "Un authrazed access" })
+            res.status(HttpStatus.UNAUTHORIZED).json({
+                status: HttpStatus.UNAUTHORIZED,
+                message: "Un authrazed access",
+                error: "Un authrazed access",
+                data: null
+            })
         }
     }
 }
