@@ -147,7 +147,7 @@ export class UserService implements IUserService {
                 return {
                     msg: insert ? "Sign up success" : "Internal server error",
                     status: !!insert,
-                    statusCode: insert ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR
+                    statusCode: insert ? HttpStatus.CREATED : HttpStatus.INTERNAL_SERVER_ERROR
                 }
             }
             return {

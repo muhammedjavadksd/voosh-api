@@ -25,7 +25,6 @@ export class UserController {
             status: updatePassword.statusCode,
             message: updatePassword.msg,
             data: updatePassword.data,
-            error: !updatePassword.status ? updatePassword.msg : null
         })
     }
 
@@ -37,7 +36,6 @@ export class UserController {
             status: findProfile.statusCode,
             message: findProfile.msg,
             data: findProfile.data,
-            error: !findProfile.status ? findProfile.msg : null
         })
     }
 
@@ -51,7 +49,6 @@ export class UserController {
         res.status(add.statusCode).json({
             status: add.statusCode,
             message: add.msg,
-            error: !add.status ? add.msg : null,
             data: null
         })
     }
@@ -68,7 +65,6 @@ export class UserController {
             status: findUsers.statusCode,
             message: findUsers.msg,
             data: findUsers.data,
-            error: !findUsers.status ? findUsers.msg : null
         });
     }
 
@@ -88,14 +84,12 @@ export class UserController {
                 status: signUp.statusCode,
                 message: signUp.msg,
                 data: signUp.data,
-                error: !signUp.status ? signUp.msg : null
             })
         } catch (e) {
             console.log(e);
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
                 message: "Internal server error",
-                error: "Internal server error",
                 data: null
             })
         }
@@ -112,14 +106,12 @@ export class UserController {
                 status: signIn.statusCode,
                 message: signIn.msg,
                 data: signIn.data,
-                error: !signIn.status ? signIn.msg : null
             })
         } catch (e) {
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
                 message: "Internal server error",
                 data: null,
-                error: "Internal server error"
             })
         }
     }
@@ -134,13 +126,11 @@ export class UserController {
                 status: logout.statusCode,
                 message: logout.msg,
                 data: logout.msg,
-                error: !logout.status ? logout.msg : null
             })
         } else {
             res.status(HttpStatus.UNAUTHORIZED).json({
                 status: HttpStatus.UNAUTHORIZED,
                 message: "Un authrazed access",
-                error: "Un authrazed access",
                 data: null
             })
         }

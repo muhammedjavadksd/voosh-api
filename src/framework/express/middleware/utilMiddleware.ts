@@ -20,8 +20,9 @@ export function validateRequest(req: Request, res: Response, next: NextFunction)
     const isValid = validationResult(req);
     if (!isValid.isEmpty()) {
         res.status(HttpStatus.BAD_REQUEST).json({
-            status: false,
-            msg: isValid.array()[0].msg
+            status: HttpStatus.BAD_REQUEST,
+            msg: isValid.array()[0].msg,
+            data: null
         });
         return;
     }
