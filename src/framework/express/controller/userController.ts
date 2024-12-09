@@ -11,6 +11,7 @@ export class UserController {
 
 
     constructor(userService: IUserService) {
+        this.signUp = this.signUp.bind(this)
         this.userService = userService;
     }
 
@@ -56,10 +57,17 @@ export class UserController {
         const password: string = req.body.password
         const email: string = req.body.email
 
+
+        console.log("Request body");
+        console.log(req.body);
+
+
         try {
             const signUp = await this.userService.signUp(email, password);
             res.status(signUp.statusCode).json({ status: signUp.status, msg: signUp.msg, data: signUp.data })
         } catch (e) {
+            console.log(e);
+
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ status: false, msg: "Internal server error" })
         }
     }

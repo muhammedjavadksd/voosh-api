@@ -13,11 +13,15 @@ export function notFound(req: Request, res: Response) {
 }
 
 export function validateRequest(req: Request, res: Response, next: NextFunction) {
+
+
+    console.log(req.body);
+
     const isValid = validationResult(req);
     if (!isValid.isEmpty()) {
         res.status(HttpStatus.BAD_REQUEST).json({
             status: false,
-            msg: isValid.array()[0]
+            msg: isValid.array()[0].msg
         });
         return;
     }

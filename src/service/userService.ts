@@ -1,5 +1,5 @@
 import { HttpStatus, JwtExpiration, UserRole } from "../data/enum/utilEnum";
-import { IBcryptModule, ITokenModule, ITokenRepo, IUserRepo, IUserService } from "../data/interface/abstractInterface";
+import { IBcryptModule, IProjectHelper, ITokenModule, ITokenRepo, IUserRepo, IUserService } from "../data/interface/abstractInterface";
 import { IUserCollection } from "../data/interface/databaseModel";
 import { IPaginationResponse, IUserJwtPayload, ServiceResponse } from "../data/interface/typeInterface";
 
@@ -11,13 +11,16 @@ export class UserService implements IUserService {
     private readonly tokenModule: ITokenModule;
     private readonly userRepo: IUserRepo;
     private readonly bcryptModule: IBcryptModule;
+    private readonly projectHelper: IProjectHelper;
 
 
-    constructor(tokenRepo: ITokenRepo, userRepo: IUserRepo, bcryptModule: IBcryptModule, tokenModule: ITokenModule) {
+    constructor(tokenRepo: ITokenRepo, userRepo: IUserRepo, bcryptModule: IBcryptModule, tokenModule: ITokenModule, helper: IProjectHelper) {
+        this.signUp = this.signUp.bind(this);
         this.tokenRepo = tokenRepo;
         this.userRepo = userRepo;
         this.bcryptModule = bcryptModule;
         this.tokenModule = tokenModule
+        this.projectHelper = helper
     }
 
 
@@ -97,7 +100,8 @@ export class UserService implements IUserService {
         }
         const bcrypt = await this.bcryptModule.bcrypt(password);
         if (bcrypt) {
-            await this.userRepo.insertUser({ email_id: emailAddress, password: bcrypt, role: role });
+            const userId = await this.projectHelper.generateUserId();
+            await this.userRepo.insertUser({ email_id: emailAddress, password: bcrypt, role: role, user_id: userId });
             return {
                 msg: "User created success",
                 status: true,
@@ -138,7 +142,8 @@ export class UserService implements IUserService {
         if (!findByEmailId) {
             const bcryptPassword = await this.bcryptModule.bcrypt(password);
             if (bcryptPassword) {
-                const insert = await this.userRepo.insertUser({ email_id: emailAddress, password: bcryptPassword, role: UserRole.Viewer })
+                const userId: string = await this.projectHelper.generateUserId();
+                const insert = await this.userRepo.insertUser({ email_id: emailAddress, password: bcryptPassword, role: UserRole.Viewer, user_id: userId })
                 return {
                     msg: insert ? "Sign up success" : "Internal server error",
                     status: !!insert,

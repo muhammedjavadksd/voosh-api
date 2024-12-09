@@ -25,11 +25,16 @@ export interface IBcryptModule {
     compare(data: string, compareWith: string): Promise<boolean>
 }
 
+export interface IProjectHelper {
+    generateUserId(): Promise<string>
+}
+
 export interface IUserRepo {
+    findProfileByUserId(userId: string): Promise<IUserCollection | null>
     deleteProfile(userId: string): Promise<boolean>
     findUserByEmail(emailAddress: string): Promise<IUserCollection | null>
     findUserById(userId: string): Promise<IUserCollection | null>
-    insertUser(instance: Partial<IUserSchema>): Promise<ObjectId | null>
+    insertUser(instance: IUserSchema): Promise<ObjectId | null>
     findUsers(offset: number | null, limit: number | null, role: UserRole | null): Promise<IPaginationResponse<IUserCollection>>
     updateProfile(profile: Partial<IUserCollection>, profileId: string): Promise<boolean>
 }
