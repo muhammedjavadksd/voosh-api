@@ -12,6 +12,7 @@ export class UserController {
 
     constructor(userService: IUserService) {
         this.signUp = this.signUp.bind(this)
+        this.signIn = this.signIn.bind(this)
         this.userService = userService;
     }
 
@@ -108,6 +109,8 @@ export class UserController {
                 data: signIn.data,
             })
         } catch (e) {
+            console.log(e);
+
             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
                 message: "Internal server error",

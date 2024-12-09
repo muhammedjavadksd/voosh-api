@@ -16,6 +16,7 @@ export class UserService implements IUserService {
 
     constructor(tokenRepo: ITokenRepo, userRepo: IUserRepo, bcryptModule: IBcryptModule, tokenModule: ITokenModule, helper: IProjectHelper) {
         this.signUp = this.signUp.bind(this);
+        this.signIn = this.signIn.bind(this);
         this.tokenRepo = tokenRepo;
         this.userRepo = userRepo;
         this.bcryptModule = bcryptModule;
@@ -189,6 +190,10 @@ export class UserService implements IUserService {
                         }
                     }
                 } else {
+                    console.log("Worked");
+                    console.log(accessToken);
+                    console.log(refreshToken);
+
                     return {
                         status: false,
                         msg: "Internal server error",
@@ -206,7 +211,7 @@ export class UserService implements IUserService {
             return {
                 status: false,
                 msg: "Email id not found",
-                statusCode: HttpStatus.BAD_REQUEST
+                statusCode: HttpStatus.NOT_FOUND
             }
         }
     }

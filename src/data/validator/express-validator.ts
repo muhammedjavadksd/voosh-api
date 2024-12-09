@@ -14,7 +14,7 @@ export const signUpValidator = [
 
 export const signInValidator = [
     body("email").isEmail().withMessage("Please provide valid email address").notEmpty().withMessage("Email id is required"),
-    body("password").isEmail().withMessage("Please provide valid email address").notEmpty().withMessage("Email id is required")
+    body("password").notEmpty().withMessage("Email id is required")
 ]
 
 export const addUserValidator = [
